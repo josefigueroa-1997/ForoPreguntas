@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Formulario de Inicio de Sesión</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/RegiterForm.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="container">
+        <form id="myform" method="post" action="@Url.Action("Login","Usuario")" enctype="multipart/form-data">
+            <div class="row justify-content-center">
+                <div class="col-md-6 custom-form" id="first-form">
+                    @if(!string.IsNullOrEmpty(ViewBag.Error)){
+                        
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+                    <h2 class="text-center mb-4">Inicio de Sesión</h2>
+                    
+                    <div class="form-group">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" id="Correo" name="correo" placeholder="Ingresa tu correo electrónico">
+                        
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" class="form-control" id="Contraseña" name="contraseña" placeholder="Ingresa tu contraseña">
+                        
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">Iniciar Sesión</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+</body>
+</html>

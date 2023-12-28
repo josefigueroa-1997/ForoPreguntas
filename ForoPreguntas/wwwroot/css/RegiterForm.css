@@ -1,0 +1,86 @@
+﻿body {
+    color: #000000;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background-image: url('../imagenes/univ.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6 /* Ajusta la opacidad según sea necesario */
+}
+
+
+.custom-form {
+    background: rgba(255, 255, 255, 0.9); /* Fondo transparente */
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 50px;
+    transition: background 0.3s ease;
+    color: black; /* Texto en blanco */
+    border: 2px solid #ffffff;
+}
+
+.form-group {
+    border: none;
+    border-bottom: 2px solid #ffffff;
+    margin-bottom: 20px;
+}
+
+    .form-group input {
+        border: none;
+        background: rgba(255, 255, 255, 0); /* Fondo blanco transparente */
+        color: black; /* Texto blanco */
+    }
+
+        .form-group input:focus {
+            box-shadow: none;
+        }
+
+.second-form {
+    display: none;
+}
+
+select.custom-select-classic {
+    width: 100%;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0);
+    color: #ffffff;
+}
+
+.checkbox-btn-group .form-check {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.checkbox-btn-group .form-check-input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.checkbox-btn-group .form-check-label {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000000; /* Texto negro */
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.checkbox-btn-group .form-check-input:checked + .form-check-label {
+    background-color: #50b3fa;
+    color: white;
+}
+.checkbox-btn-group .form-check-label:hover {
+    background-color: #50b3fa;
+    color: white;
+}

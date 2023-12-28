@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/LayoutForo.css" asp-append-version="true" />
+    <title>@ViewData["Tittle"] - El SabeloTodo</title>
+</head>
+<body>
+
+    
+    <div class="header">
+        <div class="title">
+            
+            <h1>El SabeloTodo</h1>
+        </div>
+        <div class="search-bar">
+           
+            <input type="text" placeholder="Buscar" class="form-control">
+        </div>
+        <div class="user-menu" onclick="toggleUserMenu(event)">
+         
+            <i id="userIcon" class="fa fa-user-circle"></i>
+          
+            <div id="userMenu" class="user-menu-content">
+                <ul>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="#">Configuración</a></li>
+                    <li><a href="#">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div id="carrerasContainer" class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-md-3 col-3 sidebar">
+                <h2 class="sidebar-title">Carreras</h2>
+                @foreach (var carrera in ViewBag.Carreras)
+                {
+                    <div class="carrera-container">
+                        <h2 class="carrera" data-carrera-id="@carrera.Id" onclick="toggleSubMenu(this)">
+                            @carrera.Nombre
+                        </h2>
+                        <ul class="subcategories hidden" data-carrera-id="@carrera.Id">
+                        </ul>
+                    </div>
+                }
+            </div>
+
+            <!-- Contenedor Principal -->
+            <div class="col-md-9 col-9 container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function toggleSubMenu(carreraElement) {
+            console.log("Se hizo clic en Toggle Submenu");
+            var subcategoriesContainer = $(carreraElement).next('.subcategories');
+
+          
+            $('.subcategories').not(subcategoriesContainer).addClass('hidden');
+
+       
+            if (subcategoriesContainer.hasClass('hidden')) {
+           
+                var carreraId = $(carreraElement).data('carrera-id');
+
+ 
+                loadAndToggleSubcategories(carreraElement, carreraId);
+            } else {
+                subcategoriesContainer.addClass('hidden');
+            }
+        }
+
+        function loadAndToggleSubcategories(carreraElement, carreraId) {
+            var subcategoriesContainer = $(carreraElement).next('.subcategories');
+
+            console.log("loadAndToggleSubcategories llamado para carreraId:", carreraId);
+
+            if (!subcategoriesContainer.data('loaded')) {
+                fetch('/Categoria/ObtenerCategorias/' + carreraId)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                    
+                        subcategoriesContainer.empty();
+
+             
+                        data.forEach(subcategoria => {
+                            var listItem = $('<li>');
+                            var link = $('<a>')
+                                .attr('href', '/Categoria/' + encodeURIComponent(subcategoria))  // Ajusta la URL según tu estructura
+                                .text(subcategoria);
+                            listItem.append(link);
+                            subcategoriesContainer.append(listItem);
+                        });
+
+                        subcategoriesContainer.data('loaded', true);
+                        subcategoriesContainer.removeClass('hidden');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            } else {
+                subcategoriesContainer.removeClass('hidden');
+            }
+        }
+
+        function toggleUserMenu(event) {
+           
+            var userMenu = document.getElementById('userMenu');
+            userMenu.style.display = (userMenu.style.display === 'block') ? 'none' : 'block';
+
+           
+            event.stopPropagation();
+        }
+
+
+        document.body.addEventListener('click', function () {
+            var userMenu = document.getElementById('userMenu');
+            userMenu.style.display = 'none';
+        });
+
+    </script>
+
+</body>
+</html>

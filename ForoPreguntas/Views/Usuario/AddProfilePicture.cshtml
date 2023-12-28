@@ -1,0 +1,72 @@
+﻿@model List<ForoPreguntas.Models.Usuario>
+
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Añadir Imagen</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/RegiterForm.css" asp-append-version="true" />
+    <style>
+        .fa-user:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="container">
+        @foreach (var usuario in Model)
+        {
+            <form method="post" action="@Url.Action("UpdateProfile","Usuario")" enctype="multipart/form-data" onsubmit="return validarformulario()">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 custom-form" id="first-form">
+                        <h2 class="text-center mb-4">Añada una foto de perfíl</h2>
+                        <h3 class="h3">@usuario.Nombre</h3>
+                        <div class="form-group">
+                            <label for="imagen" class="d-flex flex-column align-items-center">
+                                <i class="fa fa-user"></i>
+                                Seleccionar imagen de perfil
+                            </label>
+                            <input type="file" id="imagen" name="imagen" style="display: none;" onchange="displayFileName()" accept="image/jpeg" />
+                            <span id="fileName"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-block">Añadir una foto de perfíl</button>
+                        <a href="@Url.Action("MostrarUsuario","Usuario")" class="btn btn-success" style="text-decoration:none;">Saltar Paso</a>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function displayFileName() {
+            var fileName = document.getElementById("imagen").value.split("\\").pop();
+            document.getElementById("fileName").innerHTML = fileName;
+        }
+        function validarformulario(){
+
+            var imagenes = document.getElementById('imagen').value;
+            if(imagenes.trim() === ""){
+                return false;
+            }
+            else{
+                return true;
+            }
+
+        }
+
+    </script>
+</body>
+</html>

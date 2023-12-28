@@ -1,0 +1,94 @@
+﻿
+
+
+@{
+
+    int? usuarioid = Context.Session.GetInt32("id");
+    string? usuarionombre = Context.Session.GetString("nombre");
+}
+
+<h2>Tabla de Usuarios</h2>
+@if(usuarioid.HasValue){
+
+    <h3>@usuarioid - @usuarionombre</h3>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            var usuarios = ViewBag.Usuarios as List<ForoPreguntas.Models.Usuario>;
+            if (usuarios!=null){
+
+                foreach (var item in usuarios)
+                {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Correo</td>
+                                <td>@item.Telefono</td>
+                        <td>
+                            <img src="@Url.Action("ObtenerImagen", "Usuario", new { id = item.Id })" alt="Imagen de Usuario" />
+                        </td>
+                    </tr>
+                }
+            }
+            else{
+                        <tr>No Existen Usuarios en el Sistema</tr>
+            }
+
+        }
+
+
+    </tbody>
+
+
+</table>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            var carreras = ViewBag.Carreras as List<ForoPreguntas.Models.CarreraCategoria>;
+            if (carreras != null)
+            {
+
+                foreach (var item in carreras)
+                {
+                    <tr>
+                        <td>@item.ID_CARRERA</td>
+                        <td>@item.ID_CATEGORIA</td>
+                        
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>No Existen Usuarios en el Sistema</tr>
+            }
+
+        }
+
+
+    </tbody>
+
+
+</table>
+
+

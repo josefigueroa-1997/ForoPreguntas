@@ -1,0 +1,173 @@
+﻿
+@{
+    Layout = null;
+    List<SelectListItem> item = (List<SelectListItem>)ViewBag.datos; 
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Formulario de Registro</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/RegiterForm.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="container">
+        <form id="myform" method="post" action="@Url.Action("AgregarUsuario","Usuario")" enctype="multipart/form-data" >
+        <div class="row justify-content-center">
+            <div class="col-md-6 custom-form" id="first-form">
+                    <div class="alert alert-danger" id="alertvalido" style="display:none;">
+                    Debe ingresar un correo y una contraseña validos
+                </div>
+                <h2 class="text-center mb-4">Datos Personales</h2>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" name="nombre" placeholder="Ingresa tu nombre">
+                        
+                    </div>
+                    <div class="form-group">
+                        <label >Correo</label>
+                        <input type="email" class="form-control" id="Correo" name="correo" placeholder="Ingresa tu correo electrónico" onblur="ValidardisponibilidadEmail()">
+                       <span id="DisponibilidadCorreo" ></span>
+                    </div>
+                    <div class="form-group">
+                        <label >Contraseña</label>
+                        <input type="password" class="form-control" id="Contraseña" name="contraseña" placeholder="Ingresa tu contraseña" oninput="validarcontraseña()">
+                       <span id="contraseñavalida" style="display:none;color:green">Contraseña valida</span>
+                        <span id="contraseñainvalida" style="display:none;color:red">La contraseña debe tener al menos 8 caracteres, una mayúscula y números</span>
+                    </div>
+                    <div class="form-group">
+                        <label >Telefono</label>
+                        <input type="tel" class="form-control" id="Telefono" name="telefono" placeholder="Ingresa tu teléfono">
+              
+                    </div>
+                    
+                    <button type="button" class="btn btn-warning btn-block" style="border-radius: 15px;" id="continuarBtn" onclick="ShowSecondForm()">Continuar</button>
+                
+            </div>
+
+            <div class="col-md-6 custom-form second-form" id="second-form">
+                <h2 class="text-center mb-4">Estudios</h2>
+                
+                    <div class="form-group">
+                        <label for="opciones">Selecciona tu Carrera:</label>
+                        <select class="form-control" name="carrera" id="idcarreraselected">
+                            <option value="" disabled selected>Seleccione una Carrera</option>
+                            @foreach (var opcion in item)
+                            {
+                                <option value="@opcion.Value">@opcion.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <label id="categoriasLabel" style="display: none;">Ingrese las categorías que más le interesan</label>
+                    <div class="form-group checkbox-btn-group" id="categoriacheckbox">
+                        
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning btn-block">Registrar</button>
+                    
+                
+            </div>
+        </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        function ShowSecondForm() {
+           
+            validarcontraseña();
+            var disponibilidadSpan = document.getElementById('DisponibilidadCorreo');
+            var btncontinuar = document.getElementById('continuarBtn');
+            var alert = document.getElementById('alertvalido');
+            if (disponibilidadSpan.innerText == "Correo disponible" && contraseñavalida.style.display === 'block') {
+                document.getElementById('first-form').style.display = 'none';
+                document.getElementById('second-form').style.display = 'block';
+                
+            } else {
+
+                alert.style.display = 'block';
+            }
+        }
+
+    </script>
+ 
+    <script>
+        function ValidardisponibilidadEmail() {
+            var email = document.getElementById('Correo').value;
+            var disponibilidadSpan = document.getElementById('DisponibilidadCorreo');
+            $.ajax({
+                url: "@Url.Action("VerificardisponibilidadEmail", "Usuario")",
+                type: "POST",
+                data: { correo: email },
+                success: function (result) {
+                    if (result.available) {
+                        document.getElementById('DisponibilidadCorreo').innerText = "Correo disponible";
+                        disponibilidadSpan.style.color = "green";
+                    } else {
+                        document.getElementById('DisponibilidadCorreo').innerText = "Correo no disponible";
+                        disponibilidadSpan.style.color = "red";
+                    }
+                },
+                error: function () {
+                    alert("Error al verificar la disponibilidad del correo");
+                }
+            });
+
+        }
+    </script>
+    <script>
+        function validarcontraseña(){
+            var contraseña = document.getElementById('Contraseña').value;
+            var contraseñavalida = document.getElementById('contraseñavalida');
+            var contraseñainvalida = document.getElementById('contraseñainvalida');
+            var regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+            if(regex.test(contraseña)){
+                contraseñavalida.style.display = 'block';
+                contraseñainvalida.style.display = 'none';
+            }
+            else{
+                contraseñavalida.style.display = 'none';
+                contraseñainvalida.style.display = 'block';
+            }
+
+
+        }
+    </script>
+    <script>
+        document.getElementById("idcarreraselected").addEventListener("change", function () {
+            var label = document.getElementById("categoriasLabel");
+            label.style.display = this.value ? "block" : "none";
+            var carreraselected = this.value;
+            var carreraid = parseInt(carreraselected, 10);
+            $.ajax({
+                url: "@Url.Action("ObtenerCategorias", "Usuario")",
+                type: "GET",
+                data: { idCarrera: carreraid },
+                success: function (data) {
+                    $("#categoriacheckbox").empty();
+                    $.each(data, function (index, item) {
+                        $("#categoriacheckbox").append(
+                            '<div class="form-check">' +
+                            '<input class="form-check-input" type="checkbox" name="categorias[]" value="' + item.value + '" id="categoria_' + item.value + '">' +
+                            '<label class="form-check-label" for="categoria_' + item.value + '">' + item.text + '</label>' +
+                            '</div>'
+                        );
+                    });
+                },
+                error: function () {
+                    alert("Error al cargar las categorias");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
