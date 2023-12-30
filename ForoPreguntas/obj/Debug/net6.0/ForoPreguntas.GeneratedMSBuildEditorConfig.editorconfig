@@ -8,53 +8,57 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ForoPreguntas
 build_property.RootNamespace = ForoPreguntas
-build_property.ProjectDir = G:\arriendonet\ForoPreguntas\ForoPreguntas\
+build_property.ProjectDir = G:\arriendonet\ForoPreguntas\ProyectoForo\ForoPreguntas\ForoPreguntas\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = G:\arriendonet\ForoPreguntas\ForoPreguntas
+build_property.MSBuildProjectDirectory = G:\arriendonet\ForoPreguntas\ProyectoForo\ForoPreguntas\ForoPreguntas
 build_property._RazorSourceGeneratorDebug = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Home/Index.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Home/Privacy.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Shared/Error.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Shared/_ValidationScriptsPartial.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Usuario/AddProfilePicture.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Usuario/ActualizarDatos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xBY3R1YWxpemFyRGF0b3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Usuario/AddProfilePicture.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xBZGRQcm9maWxlUGljdHVyZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Usuario/Login.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Usuario/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Usuario/MostrarUsuario.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Usuario/MostrarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xNb3N0cmFyVXN1YXJpby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Usuario/Registro.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Usuario/Registro.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xSZWdpc3Ryby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/_ViewImports.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/_ViewStart.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[G:/arriendonet/ForoPreguntas/ForoPreguntas/Views/Shared/_Layout.cshtml]
+[G:/arriendonet/ForoPreguntas/ProyectoForo/ForoPreguntas/ForoPreguntas/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ou04w361ln

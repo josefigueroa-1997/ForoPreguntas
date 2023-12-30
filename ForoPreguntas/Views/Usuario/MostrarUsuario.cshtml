@@ -1,94 +1,39 @@
 ﻿
 
+<h2>Perfil de Usuario</h2>
 
 @{
-
-    int? usuarioid = Context.Session.GetInt32("id");
-    string? usuarionombre = Context.Session.GetString("nombre");
-}
-
-<h2>Tabla de Usuarios</h2>
-@if(usuarioid.HasValue){
-
-    <h3>@usuarioid - @usuarionombre</h3>
-}
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-        </tr>
-
-    </thead>
-    <tbody>
-        @{
-            var usuarios = ViewBag.Usuarios as List<ForoPreguntas.Models.Usuario>;
-            if (usuarios!=null){
-
-                foreach (var item in usuarios)
+    var usuarios = ViewBag.Usuarios as List<ForoPreguntas.Models.Usuario>;
+    if(usuarios!= null){
+        <div class="text-center">
+            <div class="card-deck">
+                @foreach (var usuario in usuarios)
                 {
-                            <tr>
-                                <td>@item.Id</td>
-                                <td>@item.Nombre</td>
-                                <td>@item.Correo</td>
-                                <td>@item.Telefono</td>
-                        <td>
-                            <img src="@Url.Action("ObtenerImagen", "Usuario", new { id = item.Id })" alt="Imagen de Usuario" />
-                        </td>
-                    </tr>
+                    <div class="card mb-4">
+                        <img src="@Url.Action("ObtenerImagen", "Usuario", new { id = usuario.Id })" class="card-img-top img-fluid mx-auto" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario">
+                        <div class="card-body">
+                            <h5 class="card-title">@usuario.Nombre</h5>
+                            <p class="card-text">
+                                <strong>ID:</strong>@usuario.Id <br />
+                                <strong>Correo:</strong> @usuario.Correo <br />
+                                <strong>Teléfono:</strong> @usuario.Telefono <br />
+                                <a href="@Url.Action("ActualizarDatos","Usuario",new{id=usuario.Id})" class="btn btn-warning" style="text-decoration:none;">Actualizar Datos</a>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Última actualización: @DateTime.Now</small>
+                        </div>
+                    </div>
                 }
-            }
-            else{
-                        <tr>No Existen Usuarios en el Sistema</tr>
-            }
-
-        }
-
-
-    </tbody>
-
-
-</table>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-        </tr>
-
-    </thead>
-    <tbody>
-        @{
-            var carreras = ViewBag.Carreras as List<ForoPreguntas.Models.CarreraCategoria>;
-            if (carreras != null)
-            {
-
-                foreach (var item in carreras)
-                {
-                    <tr>
-                        <td>@item.ID_CARRERA</td>
-                        <td>@item.ID_CATEGORIA</td>
-                        
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>No Existen Usuarios en el Sistema</tr>
-            }
-
-        }
-
-
-    </tbody>
-
-
-</table>
+            </div>
+        </div>
+}
+    
+   
+else
+{
+    <p>No existen usuarios en el sistema.</p>
+}
+}
 
 

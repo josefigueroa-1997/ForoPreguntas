@@ -95,16 +95,18 @@
         margin-bottom: 10px;
     }
 
-        .sidebar li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 12px;
-        }
+    .sidebar a.subcategoria-link {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 12px;
+        display: block; /* Cambiado a "block" para que cada enlace ocupe toda la línea */
+        margin-bottom: 10px; /* Agregado para proporcionar espacio entre los enlaces */
+    }
 
-            .sidebar li a:hover {
-                color: #ffd700; /* Amarillo al pasar el mouse */
-            }
+        .sidebar a.subcategoria-link:hover {
+            color: #ffd700; /* Amarillo al pasar el mouse */
+        }
 
 .container {
     padding: 20px;

@@ -2057,11 +2057,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\arriendonet\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
+      "projectUniqueName": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
       "projectName": "ForoPreguntas",
-      "projectPath": "G:\\arriendonet\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
+      "projectPath": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
       "packagesPath": "C:\\Users\\holan\\.nuget\\packages\\",
-      "outputPath": "G:\\arriendonet\\ForoPreguntas\\ForoPreguntas\\obj\\",
+      "outputPath": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\holan\\AppData\\Roaming\\NuGet\\NuGet.Config",

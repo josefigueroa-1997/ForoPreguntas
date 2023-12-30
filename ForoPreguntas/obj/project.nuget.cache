@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wvZThjVPKX7Yzmz1p2wnixunC6zxk8eEIw2PsFOcPeunBcj9Ej1F59322iuB6rEG34GiyxLHFeuRpEYMaZ8+/g==",
+  "dgSpecHash": "sUgFo65Sprrg034QIAa1Tq8A48xmZo2ie+oog9PrgSxXInIYIeSLWyRY+VTHA0Zgbx3fIIyn9YoRBZqjhXTRNQ==",
   "success": true,
-  "projectFilePath": "G:\\arriendonet\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
+  "projectFilePath": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\ForoPreguntas.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\holan\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\holan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

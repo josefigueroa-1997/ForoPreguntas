@@ -1,0 +1,62 @@
+﻿@model List<ForoPreguntas.Models.Usuario>
+
+<h2 class="mb-4">Actualizar Datos</h2>
+
+@foreach (var usuario in Model)
+{
+    <form method="post" action="@Url.Action("UpdateProfile","Usuario")" enctype="multipart/form-data">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="@usuario.Nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo electrónico:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="@usuario.Correo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Telefóno:</label>
+                    <input type="text" class="form-control" id="correo" name="telefono" value="@usuario.Telefono" required>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="cambiarFoto" id="cambiarFoto" name="cambiarFoto" onchange="toggleFileInput()">
+                    <label class="form-check-label" for="cambiarFoto">¿Quieres cambiar foto?</label>
+                </div>
+
+                <div class="mb-3" id="imagenContainer">
+                    <label for="imagen" style="cursor: pointer;">Cambiar foto:</label>
+                    <img src="@Url.Action("ObtenerImagen", "Usuario", new { id = usuario.Id })" class="card-img-top img-fluid" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario" onclick="document.getElementById('imagenInput').click();">
+                    <input type="file" class="form-control" id="imagenInput" name="imagen" style="display: none;" onchange="displaySelectedFile(this)">
+                </div>
+
+                <!-- Agrega más campos según tus necesidades -->
+
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+        </div>
+    </form>
+}
+<script>
+    function toggleFileInput() {
+        var fileInput = document.getElementById('imagenInput');
+        var imagenContainer = document.getElementById('imagenContainer');
+
+        if (document.getElementById('cambiarFoto').checked) {
+            imagenContainer.style.display = 'block';
+        } else {
+            imagenContainer.style.display = 'none';
+        }
+    }
+
+    function displaySelectedFile(input) {
+        var fileInput = input;
+        var label = input.previousElementSibling;
+        var fileName = fileInput.files[0].name;
+        label.innerText = fileName;
+    }
+
+    // Ejecutamos la función inicialmente para establecer el estado correcto al cargar la página
+    toggleFileInput();
+</script>

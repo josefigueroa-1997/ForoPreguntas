@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ForoPreguntas.Services;
 using System.Diagnostics;
+using ForoPreguntas.Models;
 
 namespace ForoPreguntas.Controllers
 {
@@ -13,21 +14,30 @@ namespace ForoPreguntas.Controllers
             _sidebarService = sidebarService;
         }
 
-        [HttpGet]
-        public IActionResult ObtenerCategorias(int id)
+        public IActionResult ObtenerCategorias(int idcarrera, int? idusuario)
         {
             try
             {
-                var categorias = _sidebarService.GetCategorias(id);
-                return Json(categorias);
+                List<Categoria> categorias;
 
+                if (idusuario != null)
+                {
+                    categorias = _sidebarService.GetCategoriasUsuario(idcarrera, idusuario.Value);
+                    
+                }
+                else
+                {
+                    categorias = _sidebarService.GetCategoriasGenerales(idcarrera);
+                    
+                }
+
+                return Json(categorias);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
-                return NotFound();
+                Debug.WriteLine($"Error en ObtenerCategorias: {e.Message}");
+                return Json(new { error = "Ocurrió un error al obtener las categorías." });
             }
-            
         }
     }
 }

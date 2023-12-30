@@ -18,10 +18,12 @@ namespace ForoPreguntas.Filter
         }
         public override void OnActionExecuting(ActionExecutingContext filtercontext)
         {  
-            var carreras = _sidebarService.GetCarreras();          
+            int? idusuario = filtercontext.HttpContext.Session.GetInt32("id");
+            var carreras = _sidebarService.GetCarreras();
+            var carrerausuario = idusuario.HasValue ? _sidebarService.GetCarreraUsuario(idusuario.Value) : null;
             var controller = (Controller)filtercontext.Controller;
             controller.ViewBag.Carreras = carreras; 
-               
+            controller.ViewBag.Carrerausuario = carrerausuario;     
         }
        
        
