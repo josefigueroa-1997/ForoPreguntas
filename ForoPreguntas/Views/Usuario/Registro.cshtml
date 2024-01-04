@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label >Correo</label>
-                        <input type="email" class="form-control" id="Correo" name="correo" placeholder="Ingresa tu correo electrónico" onblur="ValidardisponibilidadEmail()">
+                        <input type="email" class="form-control" id="Correo" name="correo" placeholder="Ingresa tu correo electrónico" onblur="ValidardisponibilidadEmail('Correo','DisponibilidadCorreo')">
                        <span id="DisponibilidadCorreo" ></span>
                     </div>
                     <div class="form-group">
@@ -78,6 +78,7 @@
 
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script asp-src-include="~/js/validaciones.js"></script>
     <script>
 
         function ShowSecondForm() {
@@ -96,31 +97,6 @@
             }
         }
 
-    </script>
- 
-    <script>
-        function ValidardisponibilidadEmail() {
-            var email = document.getElementById('Correo').value;
-            var disponibilidadSpan = document.getElementById('DisponibilidadCorreo');
-            $.ajax({
-                url: "@Url.Action("VerificardisponibilidadEmail", "Usuario")",
-                type: "POST",
-                data: { correo: email },
-                success: function (result) {
-                    if (result.available) {
-                        document.getElementById('DisponibilidadCorreo').innerText = "Correo disponible";
-                        disponibilidadSpan.style.color = "green";
-                    } else {
-                        document.getElementById('DisponibilidadCorreo').innerText = "Correo no disponible";
-                        disponibilidadSpan.style.color = "red";
-                    }
-                },
-                error: function () {
-                    alert("Error al verificar la disponibilidad del correo");
-                }
-            });
-
-        }
     </script>
     <script>
         function validarcontraseña(){

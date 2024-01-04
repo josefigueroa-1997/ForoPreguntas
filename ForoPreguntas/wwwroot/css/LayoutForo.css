@@ -1,4 +1,8 @@
-﻿body {
+﻿* {
+    box-sizing: border-box; /* Incluye padding y borde en el ancho y alto totales */
+}
+
+body {
     background-color: #ffffff; /* Fondo blanco */
     margin: 0; /* Elimina el margen predeterminado del cuerpo */
     font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto o la fuente que desees */
@@ -10,7 +14,10 @@
     color: #fff; /* Texto blanco */
     padding: 15px;
     display: flex;
-    align-items: center; /* Centra verticalmente los elementos */
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1000; /* Centra verticalmente los elementos */
 }
 
 .title {
@@ -29,15 +36,23 @@
     position: relative; /* Asegura que el menú esté posicionado con respecto a este elemento */
 }
 
+.userIcon {
+    width: 40px; /* ajusta el tamaño según sea necesario */
+    height: 40px; /* ajusta el tamaño según sea necesario */
+    border-radius: 50%; /* para hacer que la imagen sea redonda */
+}
+
 .user-menu-content {
     display: none;
     position: absolute;
-    top: 100%; /* Alinear el menú debajo del icono de usuario */
+    top: 100%;
     right: 0;
     background-color: #343a40;
     border: 1px solid #4e555b;
     z-index: 1;
+    width: 200px; /* Ajusta el ancho según sea necesario */
 }
+
 
     .user-menu-content ul {
         list-style: none;
@@ -61,12 +76,15 @@
         }
 
 .sidebar {
-    background-color: #343a40; /* Gris oscuro */
+    background-color: #343a40;
     padding: 15px;
-    border-right: 1px solid #4e555b; /* Borde derecho gris más oscuro */
-    color: #fff; /* Texto blanco */
-    width: 200px; /* Ancho del sidebar */
-    height: 100vh; /* Altura del 100% del viewport height */
+    border-right: 1px solid #4e555b;
+    color: #fff;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top:80px;
+    overflow-y: auto;
 }
 
     .sidebar h2 {
@@ -111,12 +129,15 @@
 .container {
     padding: 20px;
     background-color: #fefeff;
+    margin-top: 60px;
 }
 
 .sidebar .sidebar-title {
     color: #fff;
-    font-size: 35px; /* Color blanco para el título 'Carreras' */
+    font-size: 25px; /* Color blanco para el título 'Carreras' */
 }
+
 .hidden {
     display: none;
 }
+ 

@@ -13,10 +13,10 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<CargarCarreras>();
 });
 
-// ...
 
 builder.Services.AddScoped<SidebarService>();
-
+builder.Services.AddScoped<Imagen>();
+builder.Services.AddScoped<PreguntaServices>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(1800);

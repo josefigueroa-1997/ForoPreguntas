@@ -1,0 +1,76 @@
+﻿<style>
+    /* Agrega estilos adicionales según tus preferencias */
+    .custom-checkbox-label {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .custom-checkbox {
+        display: none;
+    }
+
+    .custom-checkbox-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border: 2px solid black;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+        .custom-checkbox-btn.selected {
+            background-color: #007bff; /* Cambia el color a azul al seleccionar */
+            color: #fff;
+        }
+</style>
+<div class="card">
+
+<div class="card-body">
+        <form method="post" action="@Url.Action("RegistarPregunta","Pregunta")" enctype="multipart/form-data">
+            <div class="form-group border-bottom">
+                <label for="Titulo">Titulo:</label>
+                <input type="text" class="form-control border-0" name="titulo"/>
+            </div>
+            <div class="form-group border-bottom">
+                <label for="Detalle">Descripción de Pregunta:</label>
+                <textarea class="form-control " rows="4" name="detalle"></textarea>
+            </div>
+            <div class="form-group border-bottom">
+                <label for="imagen">Adjunte imagen(no es obligatorio):</label>
+                <input type="file" class="form-control border-0" name="imagen" />
+            </div>
+            <label id="categoriasLabel">Etiquete los ramos</label>
+            @foreach (var categoria in ViewBag.Categorias)
+            {
+                <label class="custom-checkbox-label">
+                    <input type="checkbox" class="custom-checkbox" value="@categoria.Id" name="categoria[]"/>
+                    <span class="custom-checkbox-btn">@categoria.Nombre</span>
+                </label>
+            }
+
+
+
+            <button type="submit" class="btn btn-warning">Preguntar</button>
+        </form>
+
+
+</div>
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    // Espera a que el documento esté listo
+    $(document).ready(function () {
+        // Agrega un evento de cambio para cambiar el color al seleccionar/deseleccionar
+        $('.custom-checkbox').change(function () {
+            var checkbox = $(this);
+            var btn = checkbox.closest('.custom-checkbox-label').find('.custom-checkbox-btn');
+            btn.toggleClass('selected', checkbox.prop('checked'));
+        });
+    });
+</script>
+
+
+
+
+

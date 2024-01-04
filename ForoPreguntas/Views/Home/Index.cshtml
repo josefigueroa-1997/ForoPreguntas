@@ -1,8 +1,24 @@
-﻿@{
+﻿
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @if(Context.Session.GetInt32("id") != null){
+        int? idusuario = Context.Session.GetInt32("id");
+        <a href="@Url.Action("FormularioGenerarPregunta","Pregunta",new {idusuario = idusuario})">Realizar Pregunta</a>
+    
+    }
+    @foreach (var preguntas in ViewBag.Preguntasusuario)
+    {
+
+        <p>@preguntas.Id</p>
+        <p>@preguntas.Titulo</p>
+        <p>@preguntas.NombreUsuario</p>
+    }
+   
 </div>

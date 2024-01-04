@@ -24,6 +24,7 @@ namespace ForoPreguntas.Models
 
         [ForeignKey("ID_USUARIO")]
         public virtual Usuario? Usuario { get; set; }
+        public virtual ICollection<PreguntaUsuario> PreguntaUsuarios { get; set; } = new List<PreguntaUsuario>();
        
     }
 }

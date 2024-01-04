@@ -4,9 +4,12 @@
 
 @foreach (var usuario in Model)
 {
-    <form method="post" action="@Url.Action("UpdateProfile","Usuario")" enctype="multipart/form-data">
+    <form method="post" action="@Url.Action("UpdateProfile","Usuario")" enctype="multipart/form-data" onsubmit="return validarformactualizar('DisponibilidadCorreo','alertvalido','Correo')">
         <div class="card mb-3">
             <div class="card-body">
+                <div class="alert alert-danger" id="alertvalido" style="display:none;">
+                    Debe ingresar un correo y una contraseña validos
+                </div>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre:</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" value="@usuario.Nombre" required>
@@ -14,7 +17,8 @@
 
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo electrónico:</label>
-                    <input type="email" class="form-control" id="correo" name="correo" value="@usuario.Correo" required>
+                    <input type="email" class="form-control" id="Correo" name="correo" value="@usuario.Correo" onblur="ValidardisponibilidadEmail('Correo','DisponibilidadCorreo')" required>
+                    <span id="DisponibilidadCorreo"></span>
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Telefóno:</label>
@@ -31,13 +35,14 @@
                     <input type="file" class="form-control" id="imagenInput" name="imagen" style="display: none;" onchange="displaySelectedFile(this)">
                 </div>
 
-                <!-- Agrega más campos según tus necesidades -->
+            
 
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
     </form>
 }
+<script asp-src-include="~/js/validaciones.js"></script>
 <script>
     function toggleFileInput() {
         var fileInput = document.getElementById('imagenInput');
@@ -57,6 +62,5 @@
         label.innerText = fileName;
     }
 
-    // Ejecutamos la función inicialmente para establecer el estado correcto al cargar la página
     toggleFileInput();
 </script>

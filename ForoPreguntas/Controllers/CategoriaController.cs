@@ -39,5 +39,10 @@ namespace ForoPreguntas.Controllers
                 return Json(new { error = "Ocurrió un error al obtener las categorías." });
             }
         }
+
+        public IActionResult PreguntasCategoria(int id)
+        {
+            return View();
+        }
     }
 }

@@ -22,9 +22,12 @@
             <input type="text" placeholder="Buscar" class="form-control">
         </div>
         <div class="user-menu" onclick="toggleUserMenu(event)">
-         
-            <i id="userIcon" class="fa fa-user-circle"></i>
-          
+            @if(idusuario.HasValue){
+                <img class="userIcon" id="userIcon" src="@Url.Action("ObtenerImagen", "Usuario", new { id = idusuario })" alt="Foto de perfil" />
+            }
+            else{
+                <i id="userIcon" class="fa fa-user-circle"></i>
+            }      
             <div id="userMenu" class="user-menu-content">
                 <ul>
                     @if(idusuario.HasValue){
@@ -33,10 +36,12 @@
                         <li><a href="@Url.Action("Logout","Usuario")">Cerrar sesión</a></li>
                     }
                     else{
+                        
                         <li><a href="@Url.Action("Login","Usuario")">Iniciar Sesión</a></li>
                     }
                     
                 </ul>
+               
             </div>
         </div>
     </div>
@@ -94,12 +99,12 @@
 
     <script defer>
         var usuarioid = @((idusuario.HasValue) ? idusuario.Value : "null");
-
+        var usuarioLogueado = @((idusuario.HasValue) ? "true" : "false");
         function toggleSubMenu(carreraElement) {
             console.log("Se hizo clic en Toggle Submenu");
             var subcategoriesContainer = $(carreraElement).next('.subcategories');
 
-            $('.subcategories').not(subcategoriesContainer).addClass('hidden');
+            //$('.subcategories').not(subcategoriesContainer).addClass('hidden');
 
             if (subcategoriesContainer.hasClass('hidden')) {
                 var carreraId = $(carreraElement).data('carrera-id');
@@ -154,7 +159,15 @@
                 subcategoriesContainer.removeClass('hidden');
             }
         }
-
+        $(document).ready(function () {
+            // Verifica si el usuario ha iniciado sesión antes de cargar las subcategorías
+            if (usuarioLogueado) {
+                // Selecciona todas las carreras y carga las subcategorías automáticamente
+                $('.carrera').each(function () {
+                    loadAndToggleSubcategories(this, $(this).data('carrera-id'), usuarioid);
+                });
+            }
+        });
         function toggleUserMenu(event) {
             var userMenu = document.getElementById('userMenu');
             userMenu.style.display = (userMenu.style.display === 'block') ? 'none' : 'block';

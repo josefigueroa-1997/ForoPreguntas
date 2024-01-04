@@ -10,17 +10,22 @@ namespace ForoPreguntas.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SidebarService _sideBarService; 
-
-        public HomeController(ILogger<HomeController> logger, SidebarService sideBarService)
+        private readonly SidebarService _sideBarService;
+        private readonly FOROPREGUNTASContext _dbcontext;
+        private readonly PreguntaServices _preguntaServices;
+        public HomeController(ILogger<HomeController> logger, SidebarService sideBarService, FOROPREGUNTASContext dbcontext, PreguntaServices preguntaServices)
         {
             _logger = logger;
-            _sideBarService = sideBarService; 
+            _sideBarService = sideBarService;
+            _dbcontext = dbcontext;
+            _preguntaServices = preguntaServices;
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(int? idpregunta, int? idcarrera, int? idcategoria, int? idusuario)
         {
+            var preguntasusuario = _preguntaServices.GetPreguntaUsuarios(idpregunta, idcarrera, idcategoria, idusuario);
+            ViewBag.Preguntasusuario = preguntasusuario;
             return View();
         }
        

@@ -18,7 +18,7 @@ namespace ForoPreguntas.Services
                 {
                     Id = c.Id,
                     Nombre = c.Nombre,
-                }).ToList();
+                }).OrderBy(c=>c.Nombre).ToList();
                 return carreras;
             }
             catch (Exception e)
@@ -53,7 +53,7 @@ namespace ForoPreguntas.Services
                         Id = c.ID_CATEGORIA,
                         Nombre = c.Categoria.Nombre,
                     })
-                    .ToList();
+                    .OrderBy(c=>c.Nombre).ToList();
 
                 Debug.WriteLine($"Categorías generales recuperadas para carrera ({idcarrera}): {string.Join(", ", categorias)}");
 
@@ -77,7 +77,7 @@ namespace ForoPreguntas.Services
                         Id = uc.ID_CATEGORIA,
                         Nombre = uc.CarreraCategoria.Categoria.Nombre,
                     })
-                    .ToList();
+                    .OrderBy(uc=>uc.Nombre).ToList();
 
                 Debug.WriteLine($"Categorías para usuario ({idusuario}) en carrera ({idcarrera}): {string.Join(", ", categorias)}");
 

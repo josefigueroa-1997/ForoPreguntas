@@ -21,6 +21,8 @@ namespace ForoPreguntas.Models
         public virtual DbSet<Categoria> Categorias { get; set; } = null!;
         public virtual DbSet<CarreraCategoria> CarreraCategorias { get; set; } = null!;
         public virtual DbSet<Usucarrcat> Usucarrcats { get; set; } = null!;
+        public virtual DbSet<Pregunta> Preguntas { get; set; } = null!;
+        public virtual DbSet<PreguntaUsuario> PreguntaUsuarios { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
@@ -124,6 +126,41 @@ namespace ForoPreguntas.Models
                     .HasForeignKey(e => e.ID_USUARIO)
                     .HasConstraintName("USUARIO_FK")
                     .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<Pregunta>(entity =>
+            {
+                entity.ToTable("PREGUNTAS");
+                entity.HasKey(e=>e.Id);
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                
+                entity.Property(e => e.DETALLE_PREGUNTA).IsRequired();
+                entity.Property(e => e.IMAGEN_PREGUNTA);
+                entity.Property(e => e.FECHA_PREGUNTA).IsRequired();
+                entity.Property(e => e.TITULO)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("TITULO").IsRequired();
+                
+
+            });
+            modelBuilder.Entity<PreguntaUsuario>(entity =>
+            {
+                entity.ToTable("PREGUNTA_USUARIO");
+
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(cc => cc.Pregunta)
+                    .WithMany(c => c.PreguntaUsuarios)
+                    .HasForeignKey(cc => cc.ID_PREGUNTA)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ID_PREGUNTA_FK");
+
+                entity.HasOne(cc => cc.Usucarrcat)
+                    .WithMany(cat => cat.PreguntaUsuarios)
+                    .HasForeignKey(cc => cc.ID_USUARIO)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("ID_USUARIO_FK ");
             });
 
             OnModelCreatingPartial(modelBuilder);

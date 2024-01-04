@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8OlhozxO5Q7xEJhIuwlzNgvwPi6qWMLJRG+jkLBPlzI=",
+  "Hash": "ebJDspD3EC8vu9YazU+5W5CxWgiHAEN0Src+qUmYuCo=",
   "Source": "ForoPreguntas",
   "BasePath": "_content/ForoPreguntas",
   "Mode": "Default",
@@ -151,6 +151,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\wwwroot\\js\\validaciones.js",
+      "SourceId": "ForoPreguntas",
+      "SourceType": "Discovered",
+      "ContentRoot": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\wwwroot\\",
+      "BasePath": "_content/ForoPreguntas",
+      "RelativePath": "js/validaciones.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\validaciones.js"
     },
     {
       "Identity": "G:\\arriendonet\\ForoPreguntas\\ProyectoForo\\ForoPreguntas\\ForoPreguntas\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

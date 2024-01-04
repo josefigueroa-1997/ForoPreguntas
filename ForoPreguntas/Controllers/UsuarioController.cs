@@ -16,10 +16,12 @@ namespace ForoPreguntas.Controllers
     {
         private readonly FOROPREGUNTASContext _dbcontext;
         private readonly SidebarService _sidebarservice;
-        public UsuarioController(FOROPREGUNTASContext dbcontext, SidebarService sidebarservice)
+        private readonly Imagen _imagen;
+        public UsuarioController(FOROPREGUNTASContext dbcontext, SidebarService sidebarservice, Imagen imagen)
         {
             _dbcontext = dbcontext;
             _sidebarservice = sidebarservice;
+            _imagen = imagen;
         }
 
         public IActionResult MostrarUsuario(int? id)
@@ -32,16 +34,16 @@ namespace ForoPreguntas.Controllers
             }
             else
             {
-                
+
                 return RedirectToAction("Login", "Usuario");
             }
-            
+
         }
         [HttpGet]
         public IActionResult Registro()
         {
             List<Carrera> carreras = dropdowncarreras();
-            List<SelectListItem> items = listselectitemcarreras(carreras);  
+            List<SelectListItem> items = listselectitemcarreras(carreras);
             ViewBag.datos = items;
             return View();
         }
@@ -61,8 +63,8 @@ namespace ForoPreguntas.Controllers
 
 
                     }
-                
-                
+
+
                 );
             return items;
         }
@@ -72,7 +74,7 @@ namespace ForoPreguntas.Controllers
             {
 
                 List<Carrera> carreras = _dbcontext.Carreras.ToList();
-               
+
 
 
                 return carreras;
@@ -89,29 +91,27 @@ namespace ForoPreguntas.Controllers
         public IActionResult AgregarUsuario()
         {
             try
-            {   
-  
+            {
+
                 if (ModelState.IsValid)
                 {
                     string encryptedpassword = BCrypt.Net.BCrypt.HashPassword(Request.Form["contraseña"]);
-                    
+
                     var nuevousuario = new Usuario
                     {
                         Nombre = Request.Form["nombre"],
                         Correo = Request.Form["correo"],
                         Contraseña = encryptedpassword,
                         Telefono = Request.Form["telefono"],
-           
-                };
+
+                    };
                     _dbcontext.Add(nuevousuario);
                     _dbcontext.SaveChanges();
-                    HttpContext.Session.SetInt32("id", nuevousuario.Id);
-                    HttpContext.Session.SetString("nombre", nuevousuario.Nombre);
                     int carreraid = int.Parse(Request.Form["carrera"].ToString());
                     string[] categorias = Request.Form["categorias[]"];
                     List<int> idcategorias = categorias.Select(int.Parse).ToList();
                     AgregarTablaUsuCarCat(nuevousuario.Id, carreraid, idcategorias);
-                    return RedirectToAction("AddProfilePicture", "Usuario",new { id = nuevousuario.Id});
+                    return RedirectToAction("AddProfilePicture", "Usuario", new { id = nuevousuario.Id });
 
                 }
                 else
@@ -119,7 +119,7 @@ namespace ForoPreguntas.Controllers
                     return RedirectToAction("Error", "Shared");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return RedirectToAction("Error", "Shared");
@@ -129,10 +129,10 @@ namespace ForoPreguntas.Controllers
 
         }
 
-        private void AgregarTablaUsuCarCat(int idusuario, int idcarrera,List<int> idcategorias) 
+        private void AgregarTablaUsuCarCat(int idusuario, int idcarrera, List<int> idcategorias)
         {
             try {
-                for(int i=0;i<idcategorias.Count;i++)
+                for (int i = 0; i < idcategorias.Count; i++)
                 {
                     var nuevousucarcat = new Usucarrcat
                     {
@@ -144,7 +144,7 @@ namespace ForoPreguntas.Controllers
                 }
                 _dbcontext.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
@@ -161,11 +161,10 @@ namespace ForoPreguntas.Controllers
             }
             else
             {
-                return RedirectToAction("Login","Usuario");
+                return RedirectToAction("Login", "Usuario");
             }
 
         }
-
 
         public IActionResult ActualizarDatos(int? id)
         {
@@ -188,9 +187,9 @@ namespace ForoPreguntas.Controllers
         {
             try
             {
-                int? iduser;
-                //AGREGARFOTOPERFILREGISTRAR
-                if (HttpContext.Session.GetInt32("id") == null)
+                 int? iduser;
+                 
+                if(HttpContext.Session.GetInt32("id") == null)
                 {
                     iduser = ObtenerUltimoId();
                     var usuario = _dbcontext.Usuarios.FirstOrDefault(u => u.Id == iduser);
@@ -199,37 +198,45 @@ namespace ForoPreguntas.Controllers
                         var imagenfile = Request.Form.Files["imagen"];
                         if (imagenfile != null)
                         {
-                            byte[] imagen = RecuperarImagen(imagenfile);
-                            usuario.Imagen = imagen;
-                            _dbcontext.SaveChanges();
-                        }
+                            byte[] imagen = _imagen.RecuperarImagen(imagenfile) ;
 
+                            usuario.Imagen = imagen;
+
+                        }
+                        _dbcontext.SaveChanges();
+                        HttpContext.Session.SetInt32("id", usuario.Id);
+                        HttpContext.Session.SetString("nombre", usuario.Nombre);
+                        return RedirectToAction("Index","Home");
                     }
+
+
                 }
-                //ACTUALIZARDATOSYAREGISTRADO
                 else
                 {
                     iduser = HttpContext.Session.GetInt32("id");
                     var usuario = _dbcontext.Usuarios.FirstOrDefault(u => u.Id == iduser);
                     if (usuario != null)
                     {
+
+
+
                         var imagenfile = Request.Form.Files["imagen"];
                         if (imagenfile != null)
                         {
-                            byte[] imagen = RecuperarImagen(imagenfile);
-                            
+                            byte[] imagen = _imagen.RecuperarImagen(imagenfile);
+
                             usuario.Imagen = imagen;
-                            
+
                         }
                         usuario.Nombre = Request.Form["nombre"];
                         usuario.Correo = Request.Form["correo"];
                         usuario.Telefono = Request.Form["telefono"];
                         _dbcontext.SaveChanges();
                     }
+                    return RedirectToAction("MostrarUsuario", "Usuario", new { id = iduser });
                 }
-                
-                
-                return RedirectToAction("Index", "Home");
+
+                return View();       
 
             }
             catch(Exception e)
@@ -317,7 +324,8 @@ namespace ForoPreguntas.Controllers
 
 
                     );
-                return Json(categoriaslistitem);
+                List<SelectListItem> categoriaslistitemOrdenadas = categoriaslistitem.OrderBy(c => c.Text).ToList();
+                return Json(categoriaslistitemOrdenadas);
 
             }
             catch(Exception e)
@@ -345,31 +353,7 @@ namespace ForoPreguntas.Controllers
 
             return File("~/path/to/default-image.jpg", "image/jpeg");
         }
-        private byte[] RecuperarImagen(IFormFile file)
-        {
-            try
-            {
-                if (file != null && file.Length > 0)
-                {
-                    byte[] bytes;
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        file.CopyTo(memoryStream);
-                        bytes = memoryStream.ToArray();
-
-
-                    }
-                    return bytes; 
-                }
-            }
-            catch (Exception ex)
-            {
-                
-                Debug.WriteLine($"Error al obtener la imagen: {ex.Message}");
-            }
-
-            return Array.Empty<byte>();
-        }
+      
         private List<Usuario> GetUsuarios(int? id) { 
         
             try {
@@ -420,8 +404,8 @@ namespace ForoPreguntas.Controllers
             
             return ultimoUsuario != null ? ultimoUsuario.Id : 0;
         }
-        
 
+        
 
 
 
