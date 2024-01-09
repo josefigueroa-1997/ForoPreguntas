@@ -1,23 +1,26 @@
 ﻿
 
-<h2>Perfil de Usuario</h2>
+
+<link rel="stylesheet" href="~/css/container.css" asp-append-version="true" />
 
 @{
     var usuarios = ViewBag.Usuarios as List<ForoPreguntas.Models.Usuario>;
-    if(usuarios!= null){
-        <div class="text-center">
-            <div class="card-deck">
+
+    if (usuarios != null)
+    {
+        <div class="text-center container-principal">
+            <div class="card-deck mx-auto text-center">
                 @foreach (var usuario in usuarios)
                 {
-                    <div class="card mb-4">
+                    <div class="card mx-auto mb-4">
                         <img src="@Url.Action("ObtenerImagen", "Usuario", new { id = usuario.Id })" class="card-img-top img-fluid mx-auto" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario">
                         <div class="card-body">
                             <h5 class="card-title">@usuario.Nombre</h5>
                             <p class="card-text">
-                                <strong>ID:</strong>@usuario.Id <br />
+                                <strong>ID:</strong> @usuario.Id <br />
                                 <strong>Correo:</strong> @usuario.Correo <br />
                                 <strong>Teléfono:</strong> @usuario.Telefono <br />
-                                <a href="@Url.Action("ActualizarDatos","Usuario",new{id=usuario.Id})" class="btn btn-warning" style="text-decoration:none;">Actualizar Datos</a>
+                                <a href="@Url.Action("ActualizarDatos", "Usuario", new { id = usuario.Id })" class="btn btn-warning" style="text-decoration:none;">Actualizar Datos</a>
                             </p>
                         </div>
                         <div class="card-footer">
@@ -27,13 +30,9 @@
                 }
             </div>
         </div>
+    }
+    else
+    {
+        <p>No existen usuarios en el sistema.</p>
+    }
 }
-    
-   
-else
-{
-    <p>No existen usuarios en el sistema.</p>
-}
-}
-
-

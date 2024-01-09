@@ -1,0 +1,24 @@
+﻿.container-principal {
+    margin-top: 100px;
+    margin-left: 80px;
+    margin-bottom: 50px;
+    
+}
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    /* Estilos hover */
+    .card-link:hover .card-body {
+        background-color: #007bff !important;
+        color: #ffffff !important;
+    }
+.card{
+    border-radius:15px;
+}
+.card-body {
+    border-radius: 15px;
+}
+

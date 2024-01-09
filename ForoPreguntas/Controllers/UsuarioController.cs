@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using ForoPreguntas.Filter;
 using ForoPreguntas.Services;
+using System.Runtime.CompilerServices;
+
 namespace ForoPreguntas.Controllers
 {
     [ServiceFilter(typeof(CargarCarreras))]
@@ -17,11 +19,13 @@ namespace ForoPreguntas.Controllers
         private readonly FOROPREGUNTASContext _dbcontext;
         private readonly SidebarService _sidebarservice;
         private readonly Imagen _imagen;
-        public UsuarioController(FOROPREGUNTASContext dbcontext, SidebarService sidebarservice, Imagen imagen)
+        private readonly PreguntaServices _preguntaservices;
+        public UsuarioController(FOROPREGUNTASContext dbcontext, SidebarService sidebarservice, Imagen imagen, PreguntaServices preguntaservices)
         {
             _dbcontext = dbcontext;
             _sidebarservice = sidebarservice;
             _imagen = imagen;
+            _preguntaservices = preguntaservices;
         }
 
         public IActionResult MostrarUsuario(int? id)
@@ -251,6 +255,7 @@ namespace ForoPreguntas.Controllers
         {
             if(!string.IsNullOrEmpty(correo) && !string.IsNullOrEmpty(contraseña))
             {
+
                 var usuario = _dbcontext.Usuarios.FirstOrDefault(u => u.Correo == correo );
                 if (usuario != null)
                 {
@@ -262,7 +267,7 @@ namespace ForoPreguntas.Controllers
                             HttpContext.Session.SetInt32("id", usuario.Id);
                             HttpContext.Session.SetString("nombre", usuario.Nombre);
                         }
-                        
+
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -282,7 +287,7 @@ namespace ForoPreguntas.Controllers
 
             return View();
         }
-
+        
         public IActionResult Logout()
         {
            
@@ -366,7 +371,7 @@ namespace ForoPreguntas.Controllers
                         Nombre = u.Nombre,
                         Correo = u.Correo,
                         Telefono = u.Telefono,
-                        Imagen = u.Imagen,
+                        
 
                     }).ToList();
                 }
@@ -405,7 +410,20 @@ namespace ForoPreguntas.Controllers
             return ultimoUsuario != null ? ultimoUsuario.Id : 0;
         }
 
-        
+        public async Task<IActionResult> PreguntasUsuarios(int? id)
+        {
+            if (id.HasValue)
+            {
+                var preguntasusuarios = await _preguntaservices.GetPreguntasUsuariosEspecificos(id.Value);
+                ViewBag.Preguntas = preguntasusuarios;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+            
+        }
 
 
 

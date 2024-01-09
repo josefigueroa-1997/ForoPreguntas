@@ -5,7 +5,7 @@
 body {
     background-color: #ffffff; /* Fondo blanco */
     margin: 0; /* Elimina el margen predeterminado del cuerpo */
-    font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto o la fuente que desees */
+    font-family: 'Cursive', sans-serif; /* Cambia la fuente a Roboto o la fuente que desees */
     color: #343a40; /* Texto gris oscuro */
 }
 
@@ -22,13 +22,26 @@ body {
 
 .title {
     flex-grow: 1; /* Hace que el título ocupe todo el espacio disponible */
-    font-family: 'Cursive', sans-serif; /* Cambia la fuente del título a Cursive o la fuente que desees */
+    /* Cambia la fuente del título a Cursive o la fuente que desees */
 }
 
+    .title a {
+        text-decoration: none;
+        color: white;
+        display: block;
+        font-size: 2em;
+        font-weight: bold;
+    }
+
 .search-bar {
-    max-width: 300px; /* Ancho máximo para la barra de búsqueda */
-    margin-left: auto; /* Mueve la barra de búsqueda al extremo derecho */
-    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
 }
 
 .user-menu {
@@ -83,8 +96,9 @@ body {
     width: 200px;
     height: 100vh;
     position: fixed;
-    top:80px;
+    top: 75px;
     overflow-y: auto;
+    z-index: 100;
 }
 
     .sidebar h2 {
@@ -128,7 +142,7 @@ body {
 
 .container {
     padding: 20px;
-    background-color: #fefeff;
+    background-color: #e0dfdc;
     margin-top: 60px;
 }
 
@@ -140,4 +154,27 @@ body {
 .hidden {
     display: none;
 }
- 
+
+.card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: space-around;*/
+    width: 100%;
+}
+
+.card {
+    flex: 0 0 calc(33.33% - 20px);
+    z-index: 1;
+    margin-bottom: 20px; /* Asegura que las tarjetas estén por debajo del sidebar */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 80px; /* Ajusta según sea necesario para dejar espacio para el sidebar fijo */
+}
+.container-fluid {
+    
+    background-color: #CFD9DF;
+}

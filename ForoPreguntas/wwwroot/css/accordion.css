@@ -1,0 +1,32 @@
+﻿/* Estilos para el acordeón */
+.accordion {
+    display: flex;
+    flex-direction: column;
+}
+
+.accordion-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px; /* Aumenta la separación entre elementos */
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+}
+
+.accordion-header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.accordion-button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+}

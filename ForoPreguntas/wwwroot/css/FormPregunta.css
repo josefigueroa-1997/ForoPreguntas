@@ -1,0 +1,21 @@
+﻿.custom-checkbox-label {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.custom-checkbox {
+    display: none;
+}
+
+.custom-checkbox-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid black;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+    .custom-checkbox-btn.selected {
+        background-color: #007bff; /* Cambia el color a azul al seleccionar */
+        color: #fff;
+    }

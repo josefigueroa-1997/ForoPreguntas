@@ -1,24 +1,57 @@
-﻿
-
-
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @if(Context.Session.GetInt32("id") != null){
-        int? idusuario = Context.Session.GetInt32("id");
-        <a href="@Url.Action("FormularioGenerarPregunta","Pregunta",new {idusuario = idusuario})">Realizar Pregunta</a>
-    
-    }
-    @foreach (var preguntas in ViewBag.Preguntasusuario)
-    {
+<link rel="stylesheet" href="~/css/container.css" asp-append-version="true"/>
 
-        <p>@preguntas.Id</p>
-        <p>@preguntas.Titulo</p>
-        <p>@preguntas.NombreUsuario</p>
+<div class="container-principal">
+    @{
+        int? idusuario = Context.Session.GetInt32("id");
+       
     }
-   
+    <a class="btn btn-warning" href="@Url.Action("FormularioGenerarPregunta","Pregunta",new{idusuario = idusuario})">Realizar Pregunta</a>
+
+
+      
+    <div class="row">
+        @foreach (var preguntas in ViewBag.PreguntasUsuarios)
+        {
+            <div class="col-md-4">
+                <a href="@Url.Action("RespuestasPregunta","Respuesta",new{idpregunta = preguntas.Id})" class="card-link card-link-hover">
+                    <div class="card">
+                        @*<img src="@Url.Action("ObtenerImagenPregunta", "Pregunta", new { id = preguntas.Idpregunta })" class="card-img-top img-fluid mx-auto" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario">*@
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@preguntas.Titulo</strong></h5>
+                            <p class="card-text">Fecha de Publicación: @preguntas.FechaPublicacion</p>
+                            <p class="card-text">ID: @preguntas.Id</p>
+                            <p class="card-text">ID Pregunta: @preguntas.Idpregunta</p>
+                            <p class="card-text">Usuario: @preguntas.NombreUsuario</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+
 </div>
+<!-- Agrega este código en la sección body de tu página Index.cshtml -->
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLoginLabel">Iniciar Sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenido del formulario de inicio de sesión -->
+                <!-- Puedes agregar tu formulario de inicio de sesión aquí -->
+                <!-- ... -->
+            </div>
+        </div>
+    </div>
+</div>
+
+

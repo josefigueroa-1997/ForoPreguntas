@@ -7,6 +7,7 @@ using System.Collections;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForoPreguntas.Controllers
 {
@@ -16,11 +17,13 @@ namespace ForoPreguntas.Controllers
         private readonly FOROPREGUNTASContext _context;
         private readonly SidebarService _sidebarService;
         private readonly Imagen _imagen;
-        public PreguntaController(FOROPREGUNTASContext context, SidebarService sidebarService,Imagen imagen)
+        private readonly PreguntaServices _preguntaservice;
+        public PreguntaController(FOROPREGUNTASContext context, SidebarService sidebarService,Imagen imagen, PreguntaServices preguntaServices)
         {
             _context = context;
             _sidebarService = sidebarService;
             _imagen = imagen;
+            _preguntaservice = preguntaServices;
         }
 
         public IActionResult Index()
@@ -30,11 +33,28 @@ namespace ForoPreguntas.Controllers
 
         public IActionResult FormularioGenerarPregunta(int idusuario)
         {
+           if (!UsuarioEstaAutenticado())
+            {
+                
+                return RedirectToAction("Login", "Usuario");
+            }
+
             Carrera carrera;
             carrera = _sidebarService.GetCarreraUsuario(idusuario);
             var categoriascarrera = _sidebarService.GetCategoriasGenerales(carrera.Id);
             ViewBag.Categorias = categoriascarrera;
+
             return View();
+        }
+
+        private bool UsuarioEstaAutenticado()
+        {
+            if (HttpContext.Session.GetInt32("id") != null)
+            {
+                return true;
+            }
+            
+            return false;
         }
 
 
@@ -47,8 +67,9 @@ namespace ForoPreguntas.Controllers
                 byte[] imagenfile = new byte[0];
                 if (imagen!= null)
                 {
-                    imagenfile = _imagen.RecuperarImagen(imagen);
+                    imagenfile  = _imagen.RecuperarImagen(imagen);
                 }
+                
                 string[] categorias = Request.Form["categoria[]"];
                 List<int> categoriasid = categorias.Select(int.Parse).ToList();
                 int? iduser = HttpContext.Session.GetInt32("id");
@@ -57,9 +78,8 @@ namespace ForoPreguntas.Controllers
                 {
                     TITULO = Request.Form["titulo"],
                     DETALLE_PREGUNTA = Request.Form["detalle"],
-                    IMAGEN_PREGUNTA = imagenfile,
+                    IMAGEN_PREGUNTA = imagenfile.Length > 0 ? imagenfile: null,
                     FECHA_PREGUNTA = DateTime.Now,
-                
                 };
                 _context.Add(nuevapregunta);
                 _context.SaveChanges();
@@ -71,7 +91,7 @@ namespace ForoPreguntas.Controllers
                         ExisteCategoriaUsuario(categoriasid, idusuario, nuevapregunta.Id);
                     }
                 }
-               
+                TempData["PreguntaRegistrada"] = true;
                 return RedirectToAction("Index","Home");
             }
             catch (Exception e)
@@ -85,7 +105,7 @@ namespace ForoPreguntas.Controllers
             
         }
 
-        private void AgregarPreguntaUsuario(List<int> categoriasid, int idpregunta,int? idusuario)
+        private void AgregarPreguntaUsuario(List<int> categoriasid, int idusuario,int idpregunta)
         {
             try
             {
@@ -144,12 +164,7 @@ namespace ForoPreguntas.Controllers
             {
                 if (categoriastemporales.Any())
                 {
-                    int idtemporal = 62;
-                    foreach(var categoria in categoriastemporales)
-                    {
-                        categoria.ID_USUARIO = idtemporal;
-                       
-                    }
+                    _context.Usucarrcats.RemoveRange(categoriastemporales);
                     _context.SaveChanges();
                    
                 }
@@ -177,9 +192,9 @@ namespace ForoPreguntas.Controllers
                     _context.Usucarrcats.AddRange(nuevascategorias);
                     
                 }
-                AgregarPreguntaUsuario(idcategorias, idpregunta, idusuario);
+                AgregarPreguntaUsuario(idcategorias, idusuario, idpregunta);
                 _context.SaveChanges();
-                EliminarCategoriasTemporales(nuevascategorias);
+                //EliminarCategoriasTemporales(nuevascategorias);
             }
             catch(Exception e)
             {
@@ -187,9 +202,21 @@ namespace ForoPreguntas.Controllers
             }
             
         }
+        public IActionResult ObtenerImagenPregunta(int id)
+        {
+            var pregunta = _context.Preguntas.FirstOrDefault(p => p.Id == id);
 
-       
+            if (pregunta != null && pregunta.IMAGEN_PREGUNTA != null)
+            {
+                return File(pregunta.IMAGEN_PREGUNTA, "image/jpeg");
+            }
+
+            return File("~/path/to/default-image.jpg", "image/jpeg");
+        }
 
         
+
+
+
     }
 }

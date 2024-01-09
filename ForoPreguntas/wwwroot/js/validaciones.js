@@ -37,3 +37,28 @@ function validarformactualizar(DisponibilidadCorreo, alertvalido, Correo) {
     alerta.style.display = 'block';
     return false;
 }
+
+function ValidarFormPregunta(Titulo, Detalle, categoria) {
+    var titulo = document.getElementById(Titulo).value;
+    var detalle = document.getElementById(Detalle).value;
+    var categorias = document.getElementsByName(categoria);
+    var seleccionado = false;
+    if (titulo.trim() === "") {
+        alert("Debe ingresar un título");
+        return false;
+    }
+    if (detalle.trim() === "") {
+        alert("Debe ingresar la descripción de la pregunta");
+        return false;
+    }
+    for (var i = 0; i < categorias.length; i++) {
+        if (categorias[i].checked) {
+            seleccionado = true;
+        }
+    }
+    if (!seleccionado) {
+        alert("Debe seleccionar al menos una etiqueta");
+        return false;
+    }
+    return true;
+}

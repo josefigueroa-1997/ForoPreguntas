@@ -22,10 +22,10 @@ namespace ForoPreguntas.Controllers
         }
 
 
-        public IActionResult Index(int? idpregunta, int? idcarrera, int? idcategoria, int? idusuario)
-        {
-            var preguntasusuario = _preguntaServices.GetPreguntaUsuarios(idpregunta, idcarrera, idcategoria, idusuario);
-            ViewBag.Preguntasusuario = preguntasusuario;
+        public async Task<IActionResult> Index(int? idpregunta,int? idcategoria,string? titulo)
+        { 
+            var preguntaasync = await _preguntaServices.GetPreguntaUsuarios(idpregunta,idcategoria,titulo);
+            ViewBag.PreguntasUsuarios = preguntaasync;
             return View();
         }
        

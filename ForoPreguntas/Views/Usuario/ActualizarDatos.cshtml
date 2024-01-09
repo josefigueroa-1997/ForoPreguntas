@@ -1,15 +1,16 @@
 ﻿@model List<ForoPreguntas.Models.Usuario>
 
-<h2 class="mb-4">Actualizar Datos</h2>
+<link rel="stylesheet" href="~/css/container.css" asp-append-version="true" />
 
 @foreach (var usuario in Model)
 {
     <form method="post" action="@Url.Action("UpdateProfile","Usuario")" enctype="multipart/form-data" onsubmit="return validarformactualizar('DisponibilidadCorreo','alertvalido','Correo')">
-        <div class="card mb-3">
+        <div class="card mb-3 container-principal">
             <div class="card-body">
                 <div class="alert alert-danger" id="alertvalido" style="display:none;">
                     Debe ingresar un correo y una contraseña validos
                 </div>
+                <h3 style="text-align:center;">Actualizar Datos</h3>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre:</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" value="@usuario.Nombre" required>

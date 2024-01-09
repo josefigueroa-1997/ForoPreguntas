@@ -2,10 +2,14 @@ using ForoPreguntas.Models;
 using Microsoft.EntityFrameworkCore;
 using ForoPreguntas.Filter;
 using ForoPreguntas.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddScoped<CargarCarreras>();
 builder.Services.AddControllersWithViews(options =>
@@ -13,7 +17,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<CargarCarreras>();
 });
 
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SidebarService>();
 builder.Services.AddScoped<Imagen>();
 builder.Services.AddScoped<PreguntaServices>();

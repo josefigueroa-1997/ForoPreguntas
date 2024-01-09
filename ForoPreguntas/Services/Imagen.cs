@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿using ForoPreguntas.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Diagnostics;
 
 namespace ForoPreguntas.Services
 {
     public class Imagen
     {
+        private readonly FOROPREGUNTASContext _dbcontext;
+        public Imagen(FOROPREGUNTASContext dbcontext)
+        {
+            _dbcontext = dbcontext;
+        }
+
         public byte[] RecuperarImagen(IFormFile file)
         {
             try
@@ -30,5 +39,6 @@ namespace ForoPreguntas.Services
 
             return Array.Empty<byte>();
         }
+        
     }
 }
