@@ -8,7 +8,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 namespace ForoPreguntas.Controllers
 {
     [ServiceFilter(typeof(CargarCarreras))]
@@ -18,12 +19,14 @@ namespace ForoPreguntas.Controllers
         private readonly SidebarService _sidebarService;
         private readonly Imagen _imagen;
         private readonly PreguntaServices _preguntaservice;
-        public PreguntaController(FOROPREGUNTASContext context, SidebarService sidebarService,Imagen imagen, PreguntaServices preguntaServices)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public PreguntaController(FOROPREGUNTASContext context, SidebarService sidebarService,Imagen imagen, PreguntaServices preguntaServices, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _sidebarService = sidebarService;
             _imagen = imagen;
             _preguntaservice = preguntaServices;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -211,10 +214,21 @@ namespace ForoPreguntas.Controllers
                 return File(pregunta.IMAGEN_PREGUNTA, "image/jpeg");
             }
 
-            return File("~/path/to/default-image.jpg", "image/jpeg");
+            
+            var rutaImagenPredeterminada = "~/path/to/default-image.jpg";
+            var contenidoRootPath = _webHostEnvironment.ContentRootPath;
+            var rutaFisicaImagenPredeterminada = System.IO.Path.Combine(contenidoRootPath, rutaImagenPredeterminada.TrimStart('~'));
+
+            if (System.IO.File.Exists(rutaFisicaImagenPredeterminada))
+            {
+                return File(System.IO.File.ReadAllBytes(rutaFisicaImagenPredeterminada), "image/jpeg");
+            }
+
+            // Si no existe la imagen predeterminada, puedes devolver un código de estado 404
+            return NotFound();
         }
 
-        
+
 
 
 

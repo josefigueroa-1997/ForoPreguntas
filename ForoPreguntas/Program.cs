@@ -4,7 +4,7 @@ using ForoPreguntas.Filter;
 using ForoPreguntas.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.AspNetCore.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +21,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SidebarService>();
 builder.Services.AddScoped<Imagen>();
 builder.Services.AddScoped<PreguntaServices>();
+builder.Services.AddScoped<RespuestaService>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(1800);
@@ -29,6 +30,7 @@ builder.Services.AddSession(options =>
 
 });
 builder.Services.AddDbContext<FOROPREGUNTASContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL")));
+
 
 var app = builder.Build();
 

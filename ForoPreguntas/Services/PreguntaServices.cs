@@ -24,6 +24,10 @@ namespace ForoPreguntas.Services
         {
             try
             {
+                if (idpregunta.HasValue)
+                {
+                    return await GetPreguntaByID(idpregunta.Value);
+                }
                 if (!string.IsNullOrEmpty(titulo))
                 {
                     return await GetPreguntaBYTittle(titulo);
@@ -319,6 +323,7 @@ namespace ForoPreguntas.Services
             }
         }
 
+       
         /*public List<dynamic> GetPreguntaCategoria(int idcategoria)
         {
             try

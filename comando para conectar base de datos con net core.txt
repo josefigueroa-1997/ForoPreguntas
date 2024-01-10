@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=DESKTOP-53RFMPA\\SQLEXPRESS;DataBase=DBCRUDCORE;Integrated Security=true" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models

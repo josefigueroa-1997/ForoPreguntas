@@ -17,15 +17,13 @@
         @foreach (var preguntas in ViewBag.PreguntasUsuarios)
         {
             <div class="col-md-4">
-                <a href="@Url.Action("RespuestasPregunta","Respuesta",new{idpregunta = preguntas.Id})" class="card-link card-link-hover">
+                <a href="@Url.Action("RespuestasPregunta","Respuesta",new { idpregunta = preguntas.Id })" class="card-link card-link-hover">
                     <div class="card">
                         @*<img src="@Url.Action("ObtenerImagenPregunta", "Pregunta", new { id = preguntas.Idpregunta })" class="card-img-top img-fluid mx-auto" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario">*@
                         <div class="card-body">
                             <h5 class="card-title"><strong>@preguntas.Titulo</strong></h5>
                             <p class="card-text">Fecha de Publicación: @preguntas.FechaPublicacion</p>
-                            <p class="card-text">ID: @preguntas.Id</p>
-                            <p class="card-text">ID Pregunta: @preguntas.Idpregunta</p>
-                            <p class="card-text">Usuario: @preguntas.NombreUsuario</p>
+                            <p class="card-text">Preguntado Por: @preguntas.NombreUsuario</p>
                         </div>
                     </div>
                 </a>

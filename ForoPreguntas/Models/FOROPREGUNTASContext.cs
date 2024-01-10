@@ -23,6 +23,8 @@ namespace ForoPreguntas.Models
         public virtual DbSet<Usucarrcat> Usucarrcats { get; set; } = null!;
         public virtual DbSet<Pregunta> Preguntas { get; set; } = null!;
         public virtual DbSet<PreguntaUsuario> PreguntaUsuarios { get; set; } = null!;
+        public virtual DbSet<Respuesta> Respuestas { get; set; } = null!;
+        public virtual DbSet<RespuestaPregunta> RespuestaPreguntas { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
            
@@ -161,6 +163,32 @@ namespace ForoPreguntas.Models
                     .HasForeignKey(cc => cc.ID_USUARIO)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("ID_USUARIO_FK ");
+            });
+           modelBuilder.Entity<Respuesta>(entity =>
+            {
+                entity.ToTable("RESPUESTAS");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("ID").ValueGeneratedOnAdd();
+                entity.Property(e => e.DETALLE_RESPUESTA).IsRequired();
+                entity.Property(e => e.IMAGEN_RESPUESTA);
+                entity.Property(e => e.FECHA_RESPUESTA).IsRequired();
+                
+            });
+            modelBuilder.Entity<RespuestaPregunta>(entity =>
+            {
+                entity.ToTable("RESPUESTA_PREGUNTA");
+                entity.HasKey(e => e.Id);
+                entity.HasOne(cc => cc.Respuesta)
+                    .WithMany(c => c.RespuestaPreguntas)
+                    .HasForeignKey(cc => cc.ID_RESPUESTA)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ID_RESPUESTA_FK");
+
+                entity.HasOne(cc => cc.PreguntaUsuario)
+                    .WithMany(cat => cat.RespuestaPreguntas)
+                    .HasForeignKey(cc => cc.ID_PREGUNTA)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("ID_PREGUNTA_USUARIO_FK");
             });
 
             OnModelCreatingPartial(modelBuilder);

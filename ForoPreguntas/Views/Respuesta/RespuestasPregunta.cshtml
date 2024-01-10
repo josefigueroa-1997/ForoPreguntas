@@ -2,10 +2,76 @@
 
 <link rel="stylesheet" href="~/css/container.css" asp-append-version="true" />
 
-
-
 <div class="container-principal">
+    <form method="post" action="@Url.Action("AgregarRespuesta","Respuesta")" enctype="multipart/form-data">
 
-    <h1>HOLA MUNDO</h1>
+    
+    @foreach (var pregunta in ViewBag.Pregunta)
+    {
+        <input type="hidden" value="@pregunta.Id" name="idpregunta"/>
+        var rutaImagen = Url.Action("ObtenerImagenPregunta", "Pregunta", new { id = pregunta.Idpregunta });
 
+        <div class="card mb-4">
+            <div class="card-body">
+                <!-- Título y detalle de la pregunta -->
+                <h5 class="card-title">@pregunta.Titulo</h5>
+                <p class="card-text">@pregunta.Detallepregunta</p>
+
+                <!-- Imagen asociada a la pregunta -->
+                @if (!string.IsNullOrEmpty(rutaImagen))
+                {
+                    <img src="@rutaImagen" class="card-img-top img-fluid mx-auto" style="max-width: 100px; max-height: 150px;" alt="Imagen de Usuario">
+                }
+                else
+                {
+                    <span>No hay imagen asociada a esta pregunta.</span>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Cuadro de texto para responder -->
+    <div class="mt-3">
+        <label for="respuestaTextarea" class="form-label">Tu respuesta:</label>
+        <textarea name="detalle" class="form-control" id="respuestaTextarea" rows="3"></textarea>
+        <button type="submit" class="btn btn-primary mt-2">Responder</button>
+    </div>
+    </form>
+    <!-- Respuestas generales -->
+    <h6 class="mt-3">Respuestas Generales:</h6>
+    <ul class="list-group">
+        <!-- Respuestas de ejemplo con foto de perfil -->
+        @foreach(var respuesta in ViewBag.Respuestas){
+            <li class="list-group-item">
+                <div class="d-flex align-items-start">
+                    <img src="ruta_foto_perfil_1.jpg" alt="Foto de Perfil" class="me-3" style="max-width: 50px; max-height: 50px;">
+                    <div>
+                        <p class="mb-0"><strong>@respuesta.Id</strong></p>
+                        <p class="mb-0">@respuesta.Respuesta.DETALLE_RESPUESTA</p>
+                        <p class="mb-0"> Respondido el dia: @respuesta.Respuesta.FECHA_RESPUESTA</p>
+                        <!-- Puedes agregar más detalles de la respuesta aquí -->
+                    </div>
+                </div>
+            </li>
+        }
+        
+        <li class="list-group-item">
+            <div class="d-flex align-items-start">
+                <img src="@Url.Action("ObtenerImagen","Usuario",new{id = 46})" alt="Foto de Perfil" class="me-3" style="max-width: 50px; max-height: 50px;">
+                <div>
+                    <p class="mb-0">Respuesta de ejemplo 2</p>
+                    <!-- Puedes agregar más detalles de la respuesta aquí -->
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="d-flex align-items-start">
+                <img src="ruta_foto_perfil_3.jpg" alt="Foto de Perfil" class="me-3" style="max-width: 50px; max-height: 50px;">
+                <div>
+                    <p class="mb-0">Respuesta de ejemplo 3</p>
+                    <!-- Puedes agregar más detalles de la respuesta aquí -->
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
