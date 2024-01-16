@@ -11,15 +11,15 @@
                 <div class="accordion-header">
                     <h3>
                         <button class="accordion-button" aria-expanded="false">
-                            @pregunta.Titulo
+                            @pregunta.Pregunta.TITULO
                         </button>
                     </h3>
                 </div>
                 <div class="accordion-content">
                     
-                    <p>Detalle: @pregunta.Detallepregunta</p>
-                    <p>Fecha de Publicación: @pregunta.FechaPublicacion</p>
-                    <a href="">Ver Respuestas</a>
+                    <p>Detalle: @pregunta.Pregunta.DETALLE_PREGUNTA</p>
+                    <p>Fecha de Publicación: @pregunta.Pregunta.FECHA_PREGUNTA</p>
+                    <a href="@Url.Action("RespuestasPregunta","Respuesta",new{ idpregunta= pregunta.Id})">Ver Respuestas</a>
                 </div>
             </div>
         }

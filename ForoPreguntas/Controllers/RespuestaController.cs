@@ -4,7 +4,7 @@ using ForoPreguntas.Services;
 using System.Runtime.CompilerServices;
 using ForoPreguntas.Models;
 using static System.Net.Mime.MediaTypeNames;
-
+using System.Diagnostics;
 namespace ForoPreguntas.Controllers
 {
     public class RespuestaController : Controller
@@ -46,39 +46,39 @@ namespace ForoPreguntas.Controllers
         }
 
         [HttpPost]
-        public IActionResult AgregarRespuesta()
+        public IActionResult AgregarRespuesta(string detalle,string idpregunta,IFormFile imagen)
         {
-            var imagen = Request.Form.Files["imagen"];
-            byte[] imagenfile = new byte[0];
-            if (imagen != null)
+            
+            int idpreguntas = int.Parse(idpregunta);
+            Boolean resultado = _respuestaservice.AgregarRespuesta(detalle, idpreguntas, imagen);
+            if (resultado)
             {
-                imagenfile = _imagen.RecuperarImagen(imagen);
+                return RedirectToAction("RespuestasPregunta", new { idpregunta = idpreguntas });
             }
-            var nuevarespuesta = new Respuesta
+            else
             {
-                DETALLE_RESPUESTA = Request.Form["detalle"],
-                FECHA_RESPUESTA = DateTime.Now,
-                IMAGEN_RESPUESTA = imagenfile.Length>0 ? imagenfile: null,
-
-            };
-            int idpregunta = int.Parse(Request.Form["idpregunta"]);
-            _context.Add(nuevarespuesta);
-            _context.SaveChanges();
-            AgregarPreguntaRespuesta(idpregunta, nuevarespuesta.Id);
-            return RedirectToAction("RespuestasPregunta", new {idpregunta = idpregunta});
+                return RedirectToAction("Error", "Shared");
+            }
+            
         }
 
-        private void AgregarPreguntaRespuesta(int idpregunta,int idrespuesta)
+        [HttpPost]
+        public IActionResult AgregarCalificacionRespuesta(string idrespuesta,string calificacion)
         {
-            var nuevarespuestapregunta = new RespuestaPregunta
+            int idrespuestas = int.Parse(idrespuesta);
+            int calif = int.Parse(calificacion);
+            Boolean resultado = _respuestaservice.AgregarCalificacionRespuesta(idrespuestas, calif);
+            if (resultado)
             {
-                ID_PREGUNTA = idpregunta,
-                ID_RESPUESTA = idrespuesta,
-            };
-            _context.Add(nuevarespuestapregunta);
-            _context.SaveChanges();
+                RespuestaPregunta idpreguntas = _respuestaservice.GetRespuestaById(idrespuestas);
+                return RedirectToAction("RespuestasPregunta", new {idpregunta = idpreguntas.ID_PREGUNTA});
+            }
+            else
+            {
+                return RedirectToAction("Error","Shared");
+            }
         }
-
+       
         
     }
 }

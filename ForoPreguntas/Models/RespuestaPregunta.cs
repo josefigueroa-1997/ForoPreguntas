@@ -9,8 +9,9 @@ namespace ForoPreguntas.Models
     {
         [Key]
         public int Id { get; set; }
-        public int ID_PREGUNTA { get; set; }
+        public int ID_PREGUNTA { get; set; } 
         public int ID_RESPUESTA { get; set; }
+       public int? CALIFICACION { get; set; }
 
         [ForeignKey("ID_PREGUNTA")]
         public virtual PreguntaUsuario? PreguntaUsuario { get; set; }

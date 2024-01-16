@@ -20,7 +20,7 @@ namespace ForoPreguntas.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<dynamic>> GetPreguntaUsuarios(int? idpregunta, int? idcategoria, string? titulo)
+        public async Task<List<PreguntaUsuario>> GetPreguntaUsuarios(int? idpregunta, int? idcategoria, string? titulo)
         {
             try
             {
@@ -38,288 +38,149 @@ namespace ForoPreguntas.Services
                 }
 
                 return idcategoria.HasValue ? await GetPreguntaCategoria(idcategoria.Value) : await GetAllQuestions();
-                 
+               
 
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 
-        public async Task<List<dynamic>> GetAllQuestions()
+        public async Task<List<PreguntaUsuario>> GetAllQuestions()
         {
             try
             {
-                var preguntaUsuarios = await _context.PreguntaUsuarios
+                List<PreguntaUsuario> preguntausuarios = new List<PreguntaUsuario>();
+
+                preguntausuarios = await _context.PreguntaUsuarios
                     .Include(pu => pu.Pregunta)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
-                    .OrderBy(pu => pu.Id)
-                    .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
+                    .OrderBy(pu => pu.Id).GroupBy(pu => pu.ID_PREGUNTA)
                     .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-                
-                
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                    .ToListAsync();
+                preguntausuarios.Reverse();
+
+                return preguntausuarios;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 
-        public async Task<List<dynamic>> GetPreguntaCarreraUsuario()
+        public async Task<List<PreguntaUsuario>> GetPreguntaCarreraUsuario()
         {
             try
             {
+                List<PreguntaUsuario> preguntaUsuarios = new List<PreguntaUsuario>();
                 int? idusuario = _httpContextAccessor.HttpContext.Session.GetInt32("id");
 
                 Carrera carrera = _sidebarService.GetCarreraUsuario(idusuario.Value);
-                var preguntaUsuarios = await _context.PreguntaUsuarios.Where(p=>p.Usucarrcat.ID_CARRERA == carrera.Id)
+                preguntaUsuarios = await _context.PreguntaUsuarios.Where(p => p.Usucarrcat.ID_CARRERA == carrera.Id)
                     .Include(pu => pu.Pregunta)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
-                    .OrderBy(pu => pu.Id)
+                    .OrderBy(pu => pu.Id).GroupBy(pu => pu.ID_PREGUNTA)
+                     .Select(group => group.First())
                     .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
-                    .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-
-
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                preguntaUsuarios.Reverse();
+                return preguntaUsuarios;
+               
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 
         
 
-        public async Task<List<dynamic>> GetPreguntasUsuariosEspecificos(int idusuario)
+        public async Task<List<PreguntaUsuario>> GetPreguntasUsuariosEspecificos(int idusuario)
         {
             try
             {
-                var preguntaUsuarios = await _context.PreguntaUsuarios.Where(u=>u.Usucarrcat.ID_USUARIO == idusuario)
+                List<PreguntaUsuario> preguntaUsuarios = new List<PreguntaUsuario>();
+
+                preguntaUsuarios = await _context.PreguntaUsuarios.Where(u => u.Usucarrcat.ID_USUARIO == idusuario)
                     .Include(pu => pu.Pregunta)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
-                    .OrderBy(pu => pu.Id)
-                    .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
+                    .OrderBy(pu => pu.Id).GroupBy(pu => pu.ID_PREGUNTA)
                     .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-
-
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                    .ToListAsync();
+                preguntaUsuarios.Reverse();
+                return preguntaUsuarios;
+               
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 
-        public async Task<List<dynamic>> GetPreguntaCategoria(int idcategoria)
+        public async Task<List<PreguntaUsuario>> GetPreguntaCategoria(int idcategoria)
         {
             try
             {
-                var preguntaUsuarios = await _context.PreguntaUsuarios.Where(u => u.Usucarrcat.ID_CATEGORIA == idcategoria)
+                List<PreguntaUsuario> preguntaUsuarios = new List<PreguntaUsuario>();
+                preguntaUsuarios = await _context.PreguntaUsuarios.Where(u => u.Usucarrcat.ID_CATEGORIA == idcategoria)
                     .Include(pu => pu.Pregunta)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
-                    .OrderBy(pu => pu.Id)
-                    .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
+                    .OrderBy(pu => pu.Id).GroupBy(pu => pu.ID_PREGUNTA)
                     .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-
-
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                    .ToListAsync();
+                preguntaUsuarios.Reverse();
+                return preguntaUsuarios;
+                
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }   
 
-        public async Task<List<dynamic>> GetPreguntaBYTittle(string titulo)
+        public async Task<List<PreguntaUsuario>> GetPreguntaBYTittle(string titulo)
         {
             try
             {
-                var preguntaUsuarios = await _context.PreguntaUsuarios.Where(pu => EF.Functions.Like(pu.Pregunta.TITULO,'%'+ titulo + '%'))
+                List<PreguntaUsuario> preguntaUsuarios = new List<PreguntaUsuario>();
+                preguntaUsuarios = await _context.PreguntaUsuarios.Where(pu => EF.Functions.Like(pu.Pregunta.TITULO, '%' + titulo + '%'))
                     .Include(pu => pu.Pregunta)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
                     .OrderBy(pu => pu.Id)
                     .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
-                    .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-
-
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                preguntaUsuarios.Reverse();
+                return preguntaUsuarios;
+                
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 
-        public async Task<List<dynamic>> GetPreguntaByID(int idpregunta)
+        public async Task<List<PreguntaUsuario>> GetPreguntaByID(int idpregunta)
         {
             try
             {
-                var preguntaUsuarios = await _context.PreguntaUsuarios.Where(pu => pu.Id == idpregunta)
-                    .Include(pu => pu.Pregunta)
+                List<PreguntaUsuario> preguntaUsuarios = new List<PreguntaUsuario>();
+                preguntaUsuarios = await _context.PreguntaUsuarios.Where(pu => pu.Id == idpregunta)
+                    .Include(pu => pu.Pregunta).Include(ucc=>ucc.Usucarrcat).ThenInclude(cc=>cc.CarreraCategoria).ThenInclude(c=>c.Categoria)
                     .Include(u => u.Usucarrcat).ThenInclude(u => u.Usuario)
                     .OrderBy(pu => pu.Id)
                     .ToListAsync();
-
-                var preguntaUsuariosEnumerable = preguntaUsuarios
-                    .GroupBy(pu => pu.ID_PREGUNTA)
-                    .Select(group => group.First())
-                    .Select(pu => new
-                    {
-                        Id = pu.Id,
-                        Idpregunta = pu.Pregunta?.Id,
-                        Titulo = pu.Pregunta?.TITULO,
-                        Detallepregunta = pu.Pregunta?.DETALLE_PREGUNTA,
-                        NombreUsuario = pu.Usucarrcat?.Usuario?.Nombre,
-                        FechaPublicacion = pu.Pregunta?.FECHA_PREGUNTA,
-                    });
-
-
-                var dynamicList = preguntaUsuariosEnumerable
-                    .Select(p => {
-                        dynamic expando = new ExpandoObject();
-                        expando.Id = p.Id;
-                        expando.Idpregunta = p.Idpregunta;
-                        expando.Titulo = p.Titulo;
-                        expando.Detallepregunta = p.Detallepregunta;
-                        expando.NombreUsuario = p.NombreUsuario;
-                        expando.FechaPublicacion = p.FechaPublicacion;
-                        return expando;
-                    }).ToList();
-                dynamicList.Reverse();
-                return dynamicList;
+                return preguntaUsuarios;
+               
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return new List<dynamic>();
+                return new List<PreguntaUsuario>();
             }
         }
 

@@ -1,13 +1,16 @@
-﻿namespace ForoPreguntas.Services
+﻿using ForoPreguntas.Models;
+
+namespace ForoPreguntas.Services
 {
     public interface IPreguntaServices
     {
-        Task<List<dynamic>> GetPreguntaUsuarios(int? idpregunta, int? idcategoria,string? titulo);
-        Task<List<dynamic>> GetAllQuestions();
-        Task<List<dynamic>> GetPreguntaCarreraUsuario();
-        Task<List<dynamic>> GetPreguntasUsuariosEspecificos(int idusuario);
-        Task<List<dynamic>> GetPreguntaCategoria(int idcategoria);
-        Task<List<dynamic>> GetPreguntaBYTittle(string titulo);
-        Task<List<dynamic>> GetPreguntaByID(int idpregunta);
+        Task<List<PreguntaUsuario>> GetPreguntaUsuarios(int? idpregunta, int? idcategoria,string? titulo);
+        Task<List<PreguntaUsuario>> GetAllQuestions();
+        Task<List<PreguntaUsuario>> GetPreguntaCarreraUsuario();
+        Task<List<PreguntaUsuario>> GetPreguntasUsuariosEspecificos(int idusuario);
+        Task<List<PreguntaUsuario>> GetPreguntaCategoria(int idcategoria);
+        Task<List<PreguntaUsuario>> GetPreguntaBYTittle(string titulo);
+        Task<List<PreguntaUsuario>> GetPreguntaByID(int idpregunta);
+        
     }
 }

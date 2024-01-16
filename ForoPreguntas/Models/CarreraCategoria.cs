@@ -14,5 +14,7 @@ namespace ForoPreguntas.Models
 
         public virtual Carrera? Carrera { get; set; }
         public virtual Categoria? Categoria { get; set; }
+
+        
     }
 }

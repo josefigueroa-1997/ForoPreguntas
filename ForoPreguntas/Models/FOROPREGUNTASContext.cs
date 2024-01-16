@@ -189,6 +189,7 @@ namespace ForoPreguntas.Models
                     .HasForeignKey(cc => cc.ID_PREGUNTA)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("ID_PREGUNTA_USUARIO_FK");
+                entity.Property(e => e.CALIFICACION);
             });
 
             OnModelCreatingPartial(modelBuilder);

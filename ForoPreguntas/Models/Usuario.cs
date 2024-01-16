@@ -17,5 +17,6 @@ namespace ForoPreguntas.Models
         public string? Salt { get; set; }
         public string? Telefono { get; set; }
         public byte[]? Imagen { get; set; }
+        
     }
 }
